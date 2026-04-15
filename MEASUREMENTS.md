@@ -3,52 +3,52 @@
 ### candidate-001
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
 - **Files produced**: index.html, script.js, style.css
-- **Lines of code**:
-- **Runs in browser?**:
-- **App Quality Notes**:
-- **Code Quality Notes**:
+- **Lines of code**: 705
+- **Runs in browser?**: Yes
+- **App Quality Notes**: Visually pleasing, but slots do not line up properly. Follows prompted theme well. 
+- **Code Quality Notes**: Pretty buggy, for example it automatically resets without click reset game. 
   
 ---
 
 ### candidate-002
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
 - **Files produced**: index.html, script.js, style.css
-- **Lines of code**:
-- **Runs in browser?**:
-- **App Quality Notes**:
-- **Code Quality Notes**:
+- **Lines of code**: 650
+- **Runs in browser?**: Yes
+- **App Quality Notes**: Visually pleasing and follows prompted theme, but slots do not spin properly.
+- **Code Quality Notes**: Pretty buggy, slots don't always align and they jump all over screen when you click to spin. Stays in spinning state for far too long.
 
 ---
 
 ### candidate-003
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
 - **Files produced**: index.html, script.js, style.css
-- **Lines of code**:
-- **Runs in browser?**:
-- **App Quality Notes**:
-- **Code Quality Notes**:
+- **Lines of code**: 798
+- **Runs in browser?**: Yes
+- **App Quality Notes**: Visually pleasing, follows the theme, and is responsive. All buttons work.
+- **Code Quality Notes**: Fairly buggy, slots disappear when you click to spin and don't come back until the game resets. Game also automatically resets after inactivity. 
 
 ---
 
 ### candidate-004
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -63,7 +63,7 @@
 ### candidate-005
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -78,7 +78,7 @@
 ### candidate-006
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -93,7 +93,7 @@
 ### candidate-007
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -108,7 +108,7 @@
 ### candidate-008
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -123,7 +123,7 @@
 ### candidate-009
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -138,7 +138,7 @@
 ### candidate-010
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -153,7 +153,7 @@
 ### candidate-011
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -168,7 +168,7 @@
 ### candidate-012
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -183,7 +183,7 @@
 ### candidate-013
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -198,7 +198,7 @@
 ### candidate-014
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -213,7 +213,7 @@
 ### candidate-015
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -228,7 +228,7 @@
 ### candidate-016
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -243,7 +243,7 @@
 ### candidate-017
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -258,7 +258,7 @@
 ### candidate-018
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -273,7 +273,7 @@
 ### candidate-019
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -288,7 +288,7 @@
 ### candidate-020
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -303,7 +303,7 @@
 ### candidate-021
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -318,7 +318,7 @@
 ### candidate-022
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -333,7 +333,7 @@
 ### candidate-023
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -348,7 +348,7 @@
 ### candidate-024
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -363,7 +363,7 @@
 ### candidate-025
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -378,7 +378,7 @@
 ### candidate-026
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -393,7 +393,7 @@
 ### candidate-027
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -408,7 +408,7 @@
 ### candidate-028
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -423,7 +423,7 @@
 ### candidate-029
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -438,7 +438,7 @@
 ### candidate-030
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -453,7 +453,7 @@
 ### candidate-031
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -468,7 +468,7 @@
 ### candidate-032
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -483,7 +483,7 @@
 ### candidate-033
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -498,7 +498,7 @@
 ### candidate-034
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -513,7 +513,7 @@
 ### candidate-035
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -528,7 +528,7 @@
 ### candidate-036
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -543,7 +543,7 @@
 ### candidate-037
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -558,7 +558,7 @@
 ### candidate-038
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -573,7 +573,7 @@
 ### candidate-039
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -588,7 +588,7 @@
 ### candidate-040
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -600,10 +600,10 @@
 
 ---
 
-### candidate-041
+### candidate-0 
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -618,7 +618,7 @@
 ### candidate-042
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -633,7 +633,7 @@
 ### candidate-043
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -648,7 +648,7 @@
 ### candidate-044
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -663,7 +663,7 @@
 ### candidate-045
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -678,7 +678,7 @@
 ### candidate-046
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -693,7 +693,7 @@
 ### candidate-047
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -708,7 +708,7 @@
 ### candidate-048
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -723,7 +723,7 @@
 ### candidate-049
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
@@ -738,7 +738,7 @@
 ### candidate-050
 - **TimeStamp**: 
 - **Model + version**: gemini-2.5
-- **Input Tokens**: 41
+- **Input Tokens**:  
 - **Output Tokens**: 
 - **Total tokens**: 
 - **Wall clock time (s)**:
