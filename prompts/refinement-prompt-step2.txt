@@ -1,0 +1,7 @@
+IMprove this slot machine web app
+
+Focus especially on the following:
+- clear token balance and behavior
+- readable structure and maintainable code
+- a clear win/loss feedback
+
