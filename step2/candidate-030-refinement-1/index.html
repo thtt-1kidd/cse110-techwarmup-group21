@@ -1,49 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Token Roulette - Venture Capital Edition</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
     <div class="mainframe">
-        <header>
+        <header class="page-header">
+            <p class="eyebrow">Satirical browser slot machine</p>
             <h1>LLM TOKEN <span class="highlight">ROULETTE</span></h1>
             <p class="subtitle">Where your seed funding goes to hallucinate.</p>
         </header>
 
-        <div class="stats-bar">
+        <section class="stats-bar" aria-label="Game statistics">
             <div class="stat-box">
                 <span class="label">Compute Credits</span>
                 <span id="token-balance" class="value">100</span>
             </div>
             <div class="stat-box">
-                <span class="label">Burn Rate</span>
-                <span id="burn-rate" class="value">0.0</span>
+                <span class="label">Spin Cost</span>
+                <span id="spin-cost" class="value">5</span>
             </div>
-        </div>
+            <div class="stat-box">
+                <span class="label">Burn Rate</span>
+                <span id="burn-rate" class="value">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">Total Won</span>
+                <span id="total-won" class="value">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">Last Payout</span>
+                <span id="last-payout" class="value">—</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">Last Net</span>
+                <span id="last-net" class="value neutral">—</span>
+            </div>
+        </section>
 
-        <main class="slot-machine">
-            <div class="reels">
-                <div class="reel" id="reel-1">🤖</div>
-                <div class="reel" id="reel-2">🤖</div>
-                <div class="reel" id="reel-3">🤖</div>
+        <main class="slot-machine" aria-label="Token roulette machine">
+            <div class="machine-top">
+                <div class="machine-title">Inference Runtime Cluster</div>
+                <div class="machine-subtitle">High variance. Low accountability.</div>
+            </div>
+
+            <div class="reels-shell">
+                <div class="payline" aria-hidden="true"></div>
+
+                <div class="reel-window">
+                    <div class="reel-strip" id="reel-1" aria-live="off"></div>
+                </div>
+
+                <div class="reel-window">
+                    <div class="reel-strip" id="reel-2" aria-live="off"></div>
+                </div>
+
+                <div class="reel-window">
+                    <div class="reel-strip" id="reel-3" aria-live="off"></div>
+                </div>
             </div>
 
             <div class="controls">
-                <button id="spin-btn">RUN INFERENCE (5 Tokens)</button>
-                <button id="reset-btn" class="secondary">Pivoting (Reset)</button>
+                <button id="spin-btn" class="button primary" type="button">
+                    RUN INFERENCE (5 Tokens)
+                </button>
+                <button id="reset-btn" class="button secondary" type="button">
+                    Pivoting (Reset)
+                </button>
             </div>
         </main>
 
-        <section class="log-panel">
-            <div class="log-header">System Output</div>
-            <div id="status-msg" class="log-content">Awaiting prompt input...</div>
+        <section class="result-panel neutral" id="result-panel" aria-live="polite">
+            <div class="result-header">
+                <span class="result-kicker">Latest Result</span>
+                <span class="result-state" id="result-state">Ready</span>
+            </div>
+            <div class="result-message" id="result-message">
+                Awaiting prompt input...
+            </div>
+            <div class="result-meta">
+                <span id="result-detail">No spin yet.</span>
+                <span id="rolled-symbols">—</span>
+            </div>
         </section>
 
-        <footer>
+        <section class="log-panel">
+            <div class="log-header">System Output</div>
+            <div id="status-msg" class="log-content">&gt; Awaiting prompt input...</div>
+        </section>
+
+        <section class="payout-panel" aria-label="Payout table">
+            <h2>Payout Table</h2>
+            <div class="payout-grid">
+                <div class="payout-card">
+                    <div class="payout-symbols">🤖 🤖 🤖</div>
+                    <div class="payout-value">+20 credits</div>
+                </div>
+                <div class="payout-card">
+                    <div class="payout-symbols">📈 📈 📈</div>
+                    <div class="payout-value">+15 credits</div>
+                </div>
+                <div class="payout-card">
+                    <div class="payout-symbols">💸 💸 💸</div>
+                    <div class="payout-value">+12 credits</div>
+                </div>
+                <div class="payout-card">
+                    <div class="payout-symbols">🔥 🔥 🔥</div>
+                    <div class="payout-value">+10 credits</div>
+                </div>
+                <div class="payout-card">
+                    <div class="payout-symbols">🌀 🌀 🌀</div>
+                    <div class="payout-value">+0 credits</div>
+                </div>
+                <div class="payout-card">
+                    <div class="payout-symbols">Any pair</div>
+                    <div class="payout-value">+2 credits</div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-footer">
             <p>Disclaimer: Our model is 99% confident this result is accurate. (Margin of error: 100%)</p>
+            <p class="shortcut-tip">Shortcuts: <kbd>Space</kbd> spin, <kbd>R</kbd> reset</p>
         </footer>
     </div>
 

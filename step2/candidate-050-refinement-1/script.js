@@ -1,114 +1,396 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Core Parameters
-    let tokens = 100;
-    const spinCost = 5;
-    const symbols = ['💸', '🎰', '📈', '🔮', '💰'];
-    
-    // Satirical Message Bank
-    const messages = {
-        spin: [
-            "Optimizing hyperparameters...",
-            "Running inference on H100s...",
-            "Hallucinating a response...",
-            "Calculating GPU depreciation...",
-            "Harvesting user data for training..."
-        ],
-        win3: [
-            "JACKPOT! This model is actually useful! (Unlikely)",
-            "AGI ACHIEVED! (Marketing says so)",
-            "Tokens generated. Valuation +$10B."
-        ],
-        win2: [
-            "Partial match. We'll fix it in the next fine-tune.",
-            "Two out of three. Better than GPT-3.5.",
-            "Consolation tokens awarded. Keep spending."
-        ],
-        lose: [
-            "Model collapsed. Tokens consumed.",
-            "Refusal generated: 'As an AI, I cannot let you win.'",
-            "Out of context window. Try again.",
-            "Billing cycle complete. Thanks for the donation."
+(() => {
+    "use strict";
+
+    const CONFIG = {
+        startingBalance: 100,
+        spinCost: 5,
+        symbols: ["🧠", "🤖", "📈", "💸", "🌀"],
+        triplePayouts: {
+            "🧠": 20,
+            "🤖": 15,
+            "📈": 12,
+            "💸": 10,
+            "🌀": 0
+        },
+        pairPayout: 2,
+        reelCopies: 5,
+        reelItemHeight: 112,
+        spinDurationBase: 900,
+        maxLogLines: 10
+    };
+
+    const state = {
+        balance: CONFIG.startingBalance,
+        totalSpent: 0,
+        totalWon: 0,
+        spins: 0,
+        wins: 0,
+        isSpinning: false,
+        lastPayout: null,
+        lastNet: null,
+        currentSymbols: ["🧠", "🧠", "🧠"]
+    };
+
+    const elements = {
+        tokenBalance: document.getElementById("token-balance"),
+        spinCost: document.getElementById("spin-cost"),
+        totalSpent: document.getElementById("total-spent"),
+        totalWon: document.getElementById("total-won"),
+        lastPayout: document.getElementById("last-payout"),
+        lastNet: document.getElementById("last-net"),
+        spinButton: document.getElementById("spin-button"),
+        resetButton: document.getElementById("reset-button"),
+        logContent: document.getElementById("log-content"),
+        resultPanel: document.getElementById("result-panel"),
+        resultState: document.getElementById("result-state"),
+        resultMessage: document.getElementById("result-message"),
+        resultDetail: document.getElementById("result-detail"),
+        rolledSymbols: document.getElementById("rolled-symbols"),
+        reels: [
+            document.getElementById("reel-1"),
+            document.getElementById("reel-2"),
+            document.getElementById("reel-3")
         ]
     };
 
-    // DOM Elements
-    const balanceEl = document.getElementById('token-balance');
-    const reels = [
-        document.getElementById('reel-1'),
-        document.getElementById('reel-2'),
-        document.getElementById('reel-3')
-    ];
-    const spinBtn = document.getElementById('spin-button');
-    const logContent = document.getElementById('log-content');
+    function formatNumber(value) {
+        return new Intl.NumberFormat("en-US").format(value);
+    }
 
-    function updateLog(message) {
-        const div = document.createElement('div');
-        div.textContent = `> ${message}`;
-        logContent.prepend(div);
+    function formatSigned(value) {
+        if (value === 0) {
+            return "0";
+        }
+        return `${value > 0 ? "+" : "-"}${formatNumber(Math.abs(value))}`;
+    }
+
+    function randomSymbol() {
+        const index = Math.floor(Math.random() * CONFIG.symbols.length);
+        return CONFIG.symbols[index];
+    }
+
+    function clampNonNegative(value) {
+        return Math.max(0, value);
+    }
+
+    function addLog(message) {
+        const line = document.createElement("div");
+        line.className = "terminal-line";
+        line.textContent = `> ${message}`;
+        elements.logContent.prepend(line);
+
+        while (elements.logContent.children.length > CONFIG.maxLogLines) {
+            elements.logContent.removeChild(elements.logContent.lastChild);
+        }
+    }
+
+    function setResultPanel(type, stateLabel, message, detail, symbolsText) {
+        elements.resultPanel.classList.remove("neutral", "win", "loss");
+        elements.resultPanel.classList.add(type);
+
+        elements.resultState.textContent = stateLabel;
+        elements.resultMessage.textContent = message;
+        elements.resultDetail.textContent = detail;
+        elements.rolledSymbols.textContent = symbolsText;
+    }
+
+    function buildReelMarkup(targetSymbol) {
+        const sequence = [];
+
+        for (let copy = 0; copy < CONFIG.reelCopies; copy += 1) {
+            for (const symbol of CONFIG.symbols) {
+                sequence.push(symbol);
+            }
+        }
+
+        sequence.push(targetSymbol);
+
+        return sequence
+            .map((symbol, index) => {
+                const activeClass = index === sequence.length - 1 ? " active" : "";
+                return `<div class="reel-item${activeClass}" data-symbol="${symbol}">${symbol}</div>`;
+            })
+            .join("");
+    }
+
+    function setReelToSymbol(reelElement, symbol) {
+        reelElement.style.transition = "none";
+        reelElement.innerHTML = `<div class="reel-item active" data-symbol="${symbol}">${symbol}</div>`;
+        reelElement.style.transform = "translateY(0)";
+        reelElement.offsetHeight;
+        reelElement.style.transition = "";
+    }
+
+    function initializeReels() {
+        state.currentSymbols.forEach((symbol, index) => {
+            setReelToSymbol(elements.reels[index], symbol);
+        });
+    }
+
+    function updateStats() {
+        elements.tokenBalance.textContent = formatNumber(state.balance);
+        elements.spinCost.textContent = formatNumber(CONFIG.spinCost);
+        elements.totalSpent.textContent = formatNumber(state.totalSpent);
+        elements.totalWon.textContent = formatNumber(state.totalWon);
+
+        if (state.lastPayout === null) {
+            elements.lastPayout.textContent = "—";
+        } else {
+            elements.lastPayout.textContent = formatNumber(state.lastPayout);
+        }
+
+        if (state.lastNet === null) {
+            elements.lastNet.textContent = "—";
+            elements.lastNet.className = "stat-value neutral";
+        } else {
+            elements.lastNet.textContent = formatSigned(state.lastNet);
+            elements.lastNet.className = `stat-value ${state.lastNet > 0 ? "positive" : state.lastNet < 0 ? "negative" : "neutral"}`;
+        }
+
+        const canSpin = state.balance >= CONFIG.spinCost && !state.isSpinning;
+        elements.spinButton.disabled = !canSpin;
+
+        if (state.isSpinning) {
+            elements.spinButton.textContent = "RUNNING INFERENCE...";
+        } else if (state.balance < CONFIG.spinCost) {
+            elements.spinButton.textContent = "INSUFFICIENT TOKENS";
+        } else {
+            elements.spinButton.textContent = `RUN INFERENCE (${CONFIG.spinCost} TOKENS)`;
+        }
+    }
+
+    function evaluateResult(symbols) {
+        const [first, second, third] = symbols;
+
+        if (first === second && second === third) {
+            return {
+                kind: "triple",
+                symbol: first,
+                payout: CONFIG.triplePayouts[first] ?? 0
+            };
+        }
+
+        const counts = symbols.reduce((accumulator, symbol) => {
+            accumulator[symbol] = (accumulator[symbol] || 0) + 1;
+            return accumulator;
+        }, {});
+
+        const pairSymbol = Object.keys(counts).find((symbol) => counts[symbol] >= 2);
+
+        if (pairSymbol) {
+            return {
+                kind: "pair",
+                symbol: pairSymbol,
+                payout: CONFIG.pairPayout
+            };
+        }
+
+        return {
+            kind: "none",
+            symbol: null,
+            payout: 0
+        };
+    }
+
+    function buildOutcome(symbols, result, net) {
+        const rolledText = `Rolled: ${symbols.join(" ")}`;
+
+        if (result.kind === "triple") {
+            if (result.payout > 0) {
+                return {
+                    panelType: "win",
+                    stateLabel: "Win",
+                    message: `Triple ${result.symbol}. The benchmark looks amazing.`,
+                    detail: `Payout +${formatNumber(result.payout)} tokens · Net ${formatSigned(net)}.`,
+                    log: `Inference complete. Triple ${result.symbol} produced a premium result.`,
+                    rolledText
+                };
+            }
+
+            return {
+                panelType: "loss",
+                stateLabel: "Loss",
+                message: `Triple ${result.symbol}. Impressive output. No value.`,
+                detail: `Payout +0 tokens · Net ${formatSigned(net)}.`,
+                log: `Inference complete. Triple ${result.symbol} returned zero payout.`,
+                rolledText
+            };
+        }
+
+        if (result.kind === "pair") {
+            return {
+                panelType: "win",
+                stateLabel: "Small Win",
+                message: `Two ${result.symbol}s. A pity payout has been issued.`,
+                detail: `Payout +${formatNumber(result.payout)} tokens · Net ${formatSigned(net)}.`,
+                log: `Inference complete. Pair match on ${result.symbol}.`,
+                rolledText
+            };
+        }
+
+        return {
+            panelType: "loss",
+            stateLabel: "Loss",
+            message: "No match. Your budget has been converted into latency.",
+            detail: `Payout +0 tokens · Net ${formatSigned(net)}.`,
+            log: "Inference complete. No meaningful alignment detected.",
+            rolledText
+        };
+    }
+
+    function animateReel(reelElement, targetSymbol, reelIndex) {
+        return new Promise((resolve) => {
+            reelElement.innerHTML = buildReelMarkup(targetSymbol);
+            reelElement.style.transition = "none";
+            reelElement.style.transform = "translateY(0)";
+            reelElement.offsetHeight;
+
+            const finalIndex = CONFIG.reelCopies * CONFIG.symbols.length;
+            const finalOffset = -(finalIndex * CONFIG.reelItemHeight);
+            const duration = CONFIG.spinDurationBase + (reelIndex * 220);
+
+            reelElement.style.transition = `transform ${duration}ms cubic-bezier(0.18, 0.84, 0.24, 1)`;
+            reelElement.style.transform = `translateY(${finalOffset}px)`;
+
+            window.setTimeout(() => {
+                setReelToSymbol(reelElement, targetSymbol);
+                resolve();
+            }, duration + 40);
+        });
     }
 
     async function spin() {
-        if (tokens < spinCost) {
-            updateLog("INSUFFICIENT FUNDS. PLEASE CONTACT SALES FOR ENTERPRISE TIER.");
+        if (state.isSpinning || state.balance < CONFIG.spinCost) {
             return;
         }
 
-        // Deduct tokens
-        tokens -= spinCost;
-        balanceEl.textContent = tokens;
-        spinBtn.disabled = true;
-        
-        updateLog(messages.spin[Math.floor(Math.random() * messages.spin.length)]);
+        state.isSpinning = true;
+        state.spins += 1;
+        state.balance = clampNonNegative(state.balance - CONFIG.spinCost);
+        state.totalSpent += CONFIG.spinCost;
+        state.lastPayout = 0;
+        state.lastNet = -CONFIG.spinCost;
 
-        // Animate reels
-        reels.forEach(reel => reel.classList.add('spinning'));
+        updateStats();
+        addLog("Inference started. Allocating expensive uncertainty...");
+        setResultPanel(
+            "neutral",
+            "Spinning",
+            "Reels are spinning. The model is thinking very loudly.",
+            `Spin cost applied: -${formatNumber(CONFIG.spinCost)} tokens.`,
+            "Rolled: ..."
+        );
 
-        // Wait for "Inference Latency"
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        const symbols = [randomSymbol(), randomSymbol(), randomSymbol()];
 
-        // Calculate results
-        const results = reels.map(() => symbols[Math.floor(Math.random() * symbols.length)]);
-        
-        // Update UI
-        reels.forEach((reel, i) => {
-            reel.classList.remove('spinning');
-            reel.textContent = results[i];
-        });
+        await Promise.all(
+            elements.reels.map((reelElement, index) =>
+                animateReel(reelElement, symbols[index], index))
+        );
 
-        handleResults(results);
-        spinBtn.disabled = false;
-    }
+        state.currentSymbols = symbols;
 
-    function handleResults(res) {
-        const unique = new Set(res).size;
-        let winAmount = 0;
+        const result = evaluateResult(symbols);
+        const net = result.payout - CONFIG.spinCost;
 
-        if (unique === 1) {
-            // Three of a kind
-            const symbol = res[0];
-            const payouts = { '💸': 50, '🎰': 100, '📈': 30, '🔮': 75, '💰': 200 };
-            winAmount = payouts[symbol];
-            updateLog(messages.win3[Math.floor(Math.random() * messages.win3.length)]);
-        } else if (unique === 2) {
-            // Two of a kind
-            winAmount = 10;
-            updateLog(messages.win2[Math.floor(Math.random() * messages.win2.length)]);
+        if (result.payout > 0) {
+            state.balance += result.payout;
+            state.totalWon += result.payout;
+            state.wins += 1;
+            state.lastPayout = result.payout;
         } else {
-            updateLog(messages.lose[Math.floor(Math.random() * messages.lose.length)]);
+            state.lastPayout = 0;
         }
 
-        if (winAmount > 0) {
-            tokens += winAmount;
-            balanceEl.textContent = tokens;
-            updateLog(`CREDITED: +${winAmount} TOKENS.`);
+        state.lastNet = net;
+
+        const outcome = buildOutcome(symbols, result, net);
+
+        addLog(outcome.log);
+        setResultPanel(
+            outcome.panelType,
+            outcome.stateLabel,
+            outcome.message,
+            outcome.detail,
+            outcome.rolledText
+        );
+
+        if (state.balance <= 0) {
+            addLog("Balance depleted. Inference privileges revoked.");
+            setResultPanel(
+                "loss",
+                "Game Over",
+                "You are out of tokens. Session terminated.",
+                `${outcome.detail} Balance: 0.`,
+                outcome.rolledText
+            );
         }
 
-        if (tokens < spinCost) {
-            updateLog("CRITICAL: BANKRUPTCY DETECTED. STARTUP FUNDING EXHAUSTED.");
-            spinBtn.textContent = "FUNDING DEPLETED";
-            spinBtn.disabled = true;
-        }
+        state.isSpinning = false;
+        updateStats();
     }
 
-    spinBtn.addEventListener('click', spin);
-});
+    function resetGame() {
+        state.balance = CONFIG.startingBalance;
+        state.totalSpent = 0;
+        state.totalWon = 0;
+        state.spins = 0;
+        state.wins = 0;
+        state.isSpinning = false;
+        state.lastPayout = null;
+        state.lastNet = null;
+        state.currentSymbols = ["🧠", "🧠", "🧠"];
+
+        initializeReels();
+        updateStats();
+
+        elements.logContent.innerHTML = "";
+        addLog("System initialized...");
+        addLog("Waiting for your tokens to be processed...");
+
+        setResultPanel(
+            "neutral",
+            "Ready",
+            "Waiting for your tokens to be processed...",
+            "No spin yet.",
+            "—"
+        );
+    }
+
+    function bindEvents() {
+        elements.spinButton.addEventListener("click", spin);
+        elements.resetButton.addEventListener("click", resetGame);
+
+        document.addEventListener("keydown", (event) => {
+            if (event.code === "Space") {
+                event.preventDefault();
+                if (!elements.spinButton.disabled) {
+                    spin();
+                }
+            }
+
+            if (event.key.toLowerCase() === "r") {
+                resetGame();
+            }
+        });
+    }
+
+    function init() {
+        initializeReels();
+        bindEvents();
+        updateStats();
+
+        addLog("System initialized...");
+        addLog("Waiting for your tokens to be processed...");
+
+        setResultPanel(
+            "neutral",
+            "Ready",
+            "Waiting for your tokens to be processed...",
+            "No spin yet.",
+            "—"
+        );
+    }
+
+    init();
+})();

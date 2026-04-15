@@ -1,41 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Token Roulette | Generative Gambling</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
     <div class="container">
-        <header>
+        <header class="page-header">
+            <p class="eyebrow">Satirical browser slot machine</p>
             <h1>AI TOKEN ROULETTE</h1>
             <p class="subtitle">State-of-the-art inference. Zero-shot financial loss.</p>
         </header>
 
-        <div class="stats-bar">
-            <div class="stat">BALANCE: <span id="token-balance">100</span> TOKENS</div>
-            <div class="stat">COST: <span id="spin-cost">5</span> / SPIN</div>
-        </div>
-
-        <div class="slot-machine">
-            <div class="reel" id="reel-1">🧠</div>
-            <div class="reel" id="reel-2">🧠</div>
-            <div class="reel" id="reel-3">🧠</div>
-        </div>
-
-        <div class="controls">
-            <button id="spin-button">RUN INFERENCE</button>
-        </div>
-
-        <div class="terminal">
-            <div class="terminal-header">SYSTEM LOG</div>
-            <div id="log-content" class="terminal-body">
-                <div>> System initialized...</div>
-                <div>> Waiting for your tokens to be processed...</div>
+        <section class="stats-grid" aria-label="Game statistics">
+            <div class="stat-card">
+                <span class="stat-label">Balance</span>
+                <span id="token-balance" class="stat-value">100</span>
+                <span class="stat-unit">tokens</span>
             </div>
-        </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Spin Cost</span>
+                <span id="spin-cost" class="stat-value">5</span>
+                <span class="stat-unit">tokens</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Total Spent</span>
+                <span id="total-spent" class="stat-value">0</span>
+                <span class="stat-unit">tokens</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Total Won</span>
+                <span id="total-won" class="stat-value">0</span>
+                <span class="stat-unit">tokens</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Last Payout</span>
+                <span id="last-payout" class="stat-value">—</span>
+                <span class="stat-unit">tokens</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Last Net</span>
+                <span id="last-net" class="stat-value neutral">—</span>
+                <span class="stat-unit">tokens</span>
+            </div>
+        </section>
+
+        <main class="machine-panel" aria-label="Slot machine">
+            <div class="machine-header">
+                <div class="machine-title">Inference Runtime Cluster</div>
+                <div class="machine-subtitle">High confidence. Variable outcomes.</div>
+            </div>
+
+            <div class="reels-shell">
+                <div class="payline" aria-hidden="true"></div>
+
+                <div class="reel-window">
+                    <div class="reel-strip" id="reel-1" aria-live="off"></div>
+                </div>
+
+                <div class="reel-window">
+                    <div class="reel-strip" id="reel-2" aria-live="off"></div>
+                </div>
+
+                <div class="reel-window">
+                    <div class="reel-strip" id="reel-3" aria-live="off"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="spin-button" class="button primary" type="button">
+                    RUN INFERENCE (5 TOKENS)
+                </button>
+                <button id="reset-button" class="button secondary" type="button">
+                    RESET SESSION
+                </button>
+            </div>
+        </main>
+
+        <section class="result-panel neutral" id="result-panel" aria-live="polite">
+            <div class="result-row">
+                <span class="result-kicker">Latest Result</span>
+                <span class="result-state" id="result-state">Ready</span>
+            </div>
+
+            <div class="result-message" id="result-message">
+                Waiting for your tokens to be processed...
+            </div>
+
+            <div class="result-detail-row">
+                <span id="result-detail">No spin yet.</span>
+                <span id="rolled-symbols">—</span>
+            </div>
+        </section>
+
+        <section class="terminal" aria-label="System log">
+            <div class="terminal-header">SYSTEM LOG</div>
+            <div id="log-content" class="terminal-body"></div>
+        </section>
+
+        <section class="payout-panel" aria-label="Payout table">
+            <h2>Payout Table</h2>
+            <div class="payout-grid">
+                <div class="payout-card">
+                    <div class="payout-symbols">🧠 🧠 🧠</div>
+                    <div class="payout-value">+20 tokens</div>
+                </div>
+                <div class="payout-card">
+                    <div class="payout-symbols">🤖 🤖 🤖</div>
+                    <div class="payout-value">+15 tokens</div>
+                </div>
+                <div class="payout-card">
+                    <div class="payout-symbols">📈 📈 📈</div>
+                    <div class="payout-value">+12 tokens</div>
+                </div>
+                <div class="payout-card">
+                    <div class="payout-symbols">💸 💸 💸</div>
+                    <div class="payout-value">+10 tokens</div>
+                </div>
+                <div class="payout-card">
+                    <div class="payout-symbols">🌀 🌀 🌀</div>
+                    <div class="payout-value">+0 tokens</div>
+                </div>
+                <div class="payout-card">
+                    <div class="payout-symbols">Any pair</div>
+                    <div class="payout-value">+2 tokens</div>
+                </div>
+            </div>
+        </section>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

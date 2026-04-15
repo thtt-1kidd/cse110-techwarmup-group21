@@ -1,45 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Token Roulette - The Future is Stochastic</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
     <div class="app-container">
-        <header>
+        <header class="page-header">
+            <p class="eyebrow">Satirical browser slot machine</p>
             <h1>AI Token Roulette</h1>
             <p class="tagline">Scale your technical debt with every spin!</p>
         </header>
 
-        <main class="slot-machine">
-            <div class="stats-bar">
-                <div class="stat">CREDITS: <span id="token-count">100</span></div>
-                <div class="stat">COMPUTE BURN: <span id="burn-count">0</span></div>
-            </div>
+        <main class="slot-machine" aria-label="AI Token Roulette game">
+            <section class="stats-bar" aria-label="Game stats">
+                <div class="stat-card">
+                    <span class="stat-label">Credits</span>
+                    <span class="stat-value" id="token-count">100</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Spin Cost</span>
+                    <span class="stat-value" id="spin-cost">10</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Compute Burn</span>
+                    <span class="stat-value" id="burn-count">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Total Won</span>
+                    <span class="stat-value" id="won-count">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Last Payout</span>
+                    <span class="stat-value" id="last-payout">—</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Last Net</span>
+                    <span class="stat-value neutral" id="last-net">—</span>
+                </div>
+            </section>
 
-            <div class="reels-container">
-                <div class="reel" id="reel-1">🤖</div>
-                <div class="reel" id="reel-2">📈</div>
-                <div class="reel" id="reel-3">💸</div>
-            </div>
+            <section class="machine-panel">
+                <div class="machine-top">
+                    <div class="machine-title">Inference Runtime Cluster</div>
+                    <div class="machine-subtitle">High variance. Low accountability.</div>
+                </div>
 
-            <div class="controls">
-                <button id="spin-btn">Run Inference (10 Tokens)</button>
-                <button id="reset-btn" class="secondary">Pivot Startup (Reset)</button>
-            </div>
+                <div class="reels-shell">
+                    <div class="payline" aria-hidden="true"></div>
 
-            <div class="terminal">
+                    <div class="reel-window">
+                        <div class="reel-strip" id="reel-1" aria-live="off"></div>
+                    </div>
+
+                    <div class="reel-window">
+                        <div class="reel-strip" id="reel-2" aria-live="off"></div>
+                    </div>
+
+                    <div class="reel-window">
+                        <div class="reel-strip" id="reel-3" aria-live="off"></div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="spin-btn" class="button primary" type="button">
+                        Run Inference (10 Tokens)
+                    </button>
+                    <button id="reset-btn" class="button secondary" type="button">
+                        Pivot Startup (Reset)
+                    </button>
+                </div>
+            </section>
+
+            <section class="result-panel neutral" id="result-panel" aria-live="polite">
+                <div class="result-header">
+                    <span class="result-kicker">Latest Result</span>
+                    <span class="result-state" id="result-state">Ready</span>
+                </div>
+                <div class="result-message" id="result-message">
+                    Awaiting prompt injection...
+                </div>
+                <div class="result-meta">
+                    <span id="result-detail">No spin yet.</span>
+                    <span id="rolled-symbols">—</span>
+                </div>
+            </section>
+
+            <section class="terminal">
                 <div class="terminal-header">Inference Logs</div>
-                <div id="status-msg" class="msg-system">Awaiting prompt injection...</div>
-            </div>
+                <div id="status-msg" class="msg-system">&gt; Awaiting prompt injection...</div>
+            </section>
+
+            <section class="payouts" aria-label="Payout table">
+                <h2>Payout Table</h2>
+                <div class="payout-grid">
+                    <div class="payout-card">
+                        <div class="payout-symbols">🤖 🤖 🤖</div>
+                        <div class="payout-value">+40 credits</div>
+                    </div>
+                    <div class="payout-card">
+                        <div class="payout-symbols">📈 📈 📈</div>
+                        <div class="payout-value">+25 credits</div>
+                    </div>
+                    <div class="payout-card">
+                        <div class="payout-symbols">💸 💸 💸</div>
+                        <div class="payout-value">+20 credits</div>
+                    </div>
+                    <div class="payout-card">
+                        <div class="payout-symbols">🔥 🔥 🔥</div>
+                        <div class="payout-value">+15 credits</div>
+                    </div>
+                    <div class="payout-card">
+                        <div class="payout-symbols">🌀 🌀 🌀</div>
+                        <div class="payout-value">+0 credits</div>
+                    </div>
+                    <div class="payout-card">
+                        <div class="payout-symbols">Any pair</div>
+                        <div class="payout-value">+4 credits</div>
+                    </div>
+                </div>
+            </section>
         </main>
 
-        <footer>
+        <footer class="page-footer">
             <p>&copy; 2026 Overhype AI Corp. Results may be hallucinated. No refunds for model collapse.</p>
+            <p class="shortcut-tip">Shortcuts: <kbd>Space</kbd> spin, <kbd>R</kbd> reset</p>
         </footer>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
+

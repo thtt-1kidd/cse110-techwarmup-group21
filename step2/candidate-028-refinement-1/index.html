@@ -1,48 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Token Roulette - Inference Simulator</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>AI Token Roulette - Inference Simulator</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="app-container">
-        <header>
-            <h1>AI Token Roulette</h1>
-            <p class="tagline">"Scaling parameters, shrinking wallets."</p>
-        </header>
+  <div class="app-container">
+    <header class="header">
+      <p class="eyebrow">Satirical browser game</p>
+      <h1>AI Token Roulette</h1>
+      <p class="tagline">"Scaling parameters, shrinking wallets."</p>
+    </header>
 
-        <section class="stats-panel">
-            <div class="stat-box">
-                <span class="stat-label">Compute Credits:</span>
-                <span id="token-balance" class="stat-value">100</span>
-                <span class="stat-unit">tokens</span>
-            </div>
-        </section>
+    <section class="stats-panel" aria-label="Game stats">
+      <div class="stat-box">
+        <span class="stat-label">Compute Credits</span>
+        <span id="token-balance" class="stat-value">100</span>
+        <span class="stat-unit">tokens</span>
+      </div>
 
-        <main class="slot-machine">
-            <div class="reels-container">
-                <div class="reel" id="reel-1">🤖</div>
-                <div class="reel" id="reel-2">🤖</div>
-                <div class="reel" id="reel-3">🤖</div>
-            </div>
+      <div class="stat-box">
+        <span class="stat-label">Spin Cost</span>
+        <span id="spin-cost" class="stat-value">5</span>
+        <span class="stat-unit">tokens</span>
+      </div>
 
-            <div class="controls">
-                <button id="spin-button">Run Inference (5 Tokens)</button>
-                <button id="reset-button" class="secondary">Reset Seed Funding</button>
-            </div>
-        </main>
+      <div class="stat-box">
+        <span class="stat-label">Total Spent</span>
+        <span id="total-spent" class="stat-value">0</span>
+        <span class="stat-unit">tokens</span>
+      </div>
 
-        <section class="terminal">
-            <div id="status-log" class="log-content">> System initialized. Waiting for prompt...</div>
-            <div id="payout-msg" class="payout-content"></div>
-        </section>
+      <div class="stat-box">
+        <span class="stat-label">Total Won</span>
+        <span id="total-won" class="stat-value">0</span>
+        <span class="stat-unit">tokens</span>
+      </div>
 
-        <footer>
-            <p>* Disclaimer: Payouts are high-variance. Model may hallucinate winnings. No refunds on GPU heat.</p>
-        </footer>
-    </div>
-    <script src="script.js"></script>
+      <div class="stat-box">
+        <span class="stat-label">Last Payout</span>
+        <span id="last-payout" class="stat-value">—</span>
+        <span class="stat-unit">tokens</span>
+      </div>
+
+      <div class="stat-box">
+        <span class="stat-label">Last Net</span>
+        <span id="last-net" class="stat-value neutral">—</span>
+        <span class="stat-unit">tokens</span>
+      </div>
+    </section>
+
+    <main class="slot-machine" aria-label="Token roulette machine">
+      <div class="machine-header">
+        <div class="machine-title">Inference Runtime</div>
+        <div class="machine-subtitle">Three reels. One budget. Infinite optimism.</div>
+      </div>
+
+      <div class="reels-frame">
+        <div class="payline" aria-hidden="true"></div>
+
+        <div class="reel-window">
+          <div class="reel-strip" id="reel-1" aria-live="off"></div>
+        </div>
+
+        <div class="reel-window">
+          <div class="reel-strip" id="reel-2" aria-live="off"></div>
+        </div>
+
+        <div class="reel-window">
+          <div class="reel-strip" id="reel-3" aria-live="off"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="spin-button" class="button primary" type="button">
+          Run Inference (5 Tokens)
+        </button>
+        <button id="reset-button" class="button secondary" type="button">
+          Reset Seed Funding
+        </button>
+      </div>
+    </main>
+
+    <section class="terminal" aria-live="polite">
+      <div class="terminal-header">
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-title">runtime.log</span>
+      </div>
+
+      <div id="status-log" class="log-content">
+        &gt; System initialized. Waiting for prompt...
+      </div>
+      <div id="payout-msg" class="payout-content neutral">
+        No inference run yet.
+      </div>
+      <div id="rolled-symbols" class="rolled-symbols">—</div>
+    </section>
+
+    <section class="info-panel" aria-label="Rules and payouts">
+      <h2>How it works</h2>
+
+      <div class="rules-grid">
+        <article class="rule-card">
+          <h3>Betting</h3>
+          <p>Each inference run costs <strong>5 tokens</strong> up front.</p>
+        </article>
+
+        <article class="rule-card">
+          <h3>Jackpots</h3>
+          <ul>
+            <li><strong>🤖 🤖 🤖</strong> → +20 tokens</li>
+            <li><strong>🧠 🧠 🧠</strong> → +15 tokens</li>
+            <li><strong>💸 💸 💸</strong> → +12 tokens</li>
+            <li><strong>🔥 🔥 🔥</strong> → +10 tokens</li>
+            <li><strong>📈 📈 📈</strong> → +8 tokens</li>
+          </ul>
+        </article>
+
+        <article class="rule-card">
+          <h3>Consolation</h3>
+          <p>Any <strong>two matching symbols</strong> pays <strong>+2 tokens</strong>.</p>
+        </article>
+
+        <article class="rule-card">
+          <h3>Failure mode</h3>
+          <p>Reach <strong>0 tokens</strong> and your funding round ends immediately.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        * Disclaimer: Payouts are high-variance. Model may hallucinate winnings.
+        No refunds on GPU heat.
+      </p>
+      <p class="shortcut-tip">
+        Shortcuts: <kbd>Space</kbd> to spin, <kbd>R</kbd> to reset
+      </p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
+
