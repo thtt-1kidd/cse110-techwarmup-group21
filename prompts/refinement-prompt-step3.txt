@@ -1,0 +1,4 @@
+Make the website user-friendly
+1. Make sure everything is labeled, and only necessary things are on the website to reduce confusion.
+2. Have a stop/pause button in case of misspins and breaks.
+3. Make the UI more friendly (colorful, inviting, etc.).
