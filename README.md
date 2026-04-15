@@ -9,8 +9,10 @@
 - Tech stack:
 
 ## Repository structure
-├── prompts/         
-|   ├── original-prompt.txt/  
+```text
+.
+├── prompts/        
+|   ├── original-prompt.txt 
 |   ├── refinement-prompt-step2.txt
 |   ├── ...
 │   └── refinement-prompt-step5.txt
@@ -24,6 +26,7 @@
 |   ├── ...
 |   ├── candidate-0XX-refinement-1/ # 5 of these
 │   └── STEP2-RESULTS.md
+├── FINAL-REPORT.md
 ├── MEASUREMNTS.md
-├── RUBRIC.md
-└── README.md 
+├── README.md 
+└── RUBRIC.md
