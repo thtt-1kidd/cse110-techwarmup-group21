@@ -4,7 +4,7 @@
 
 
 ## Model and Harness
-- Model Used:
+- Model Used: Gemini 2.5
 - Tool used:
 - Tech stack:
 

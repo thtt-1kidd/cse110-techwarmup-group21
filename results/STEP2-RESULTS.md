@@ -11,4 +11,3 @@ The three candidates are listed below:
 Observations:
 - We liked the features of reset, the easy button press, and how the machines showed their movement.
 - We noticed that some didn't show emojis at the end.
-- 
