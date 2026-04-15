@@ -1,0 +1,157 @@
+:root {
+    --primary-gradient: linear-gradient(135deg, #6e8efb, #a777e3);
+    --button-gold: linear-gradient(to bottom, #ffeb3b, #fbc02d);
+    --stop-red: linear-gradient(to bottom, #ff6b6b, #ee5253);
+    --bg-dark: #0f172a;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --text-dark: #1e293b;
+}
+
+body {
+    background: var(--bg-dark);
+    /* Animated background gradient */
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: var(--text-dark);
+    font-family: 'Inter', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.app-container {
+    width: 90%;
+    max-width: 400px;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 30px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    transform: scale(0.9);
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+    to { transform: scale(1); }
+}
+
+h1 {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tagline { color: #64748b; font-size: 0.9rem; margin-top: 5px; }
+
+.stats-panel {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f1f5f9;
+    border-radius: 20px;
+    border: 2px solid #e2e8f0;
+}
+
+.stat-value {
+    display: block;
+    font-size: 3rem;
+    font-weight: 900;
+    color: #4f46e5;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+}
+
+.reels-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 2rem;
+}
+
+.reel {
+    width: 85px;
+    height: 110px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.8rem;
+    box-shadow: inset 0 -4px 0 #cbd5e1;
+    transition: all 0.2s ease;
+}
+
+/* Blur effect for spinning */
+.reel.spinning {
+    animation: reelSpin 0.1s infinite linear;
+    filter: blur(2px);
+    opacity: 0.8;
+}
+
+@keyframes reelSpin {
+    0% { transform: translateY(-5px); }
+    100% { transform: translateY(5px); }
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+button {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+}
+
+button:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0,0,0,0.1); }
+button:active { transform: translateY(2px); box-shadow: none; }
+
+.main-btn {
+    background: var(--button-gold);
+    color: #854d0e;
+    border-bottom: 4px solid #ca8a04;
+}
+
+.stop-btn {
+    background: var(--stop-red);
+    color: white;
+    border-bottom: 4px solid #b91c1c;
+}
+
+.secondary-btn {
+    background: transparent;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    box-shadow: none;
+}
+
+.secondary-btn:hover { background: #f1f5f9; color: #475569; }
+
+.win-text {
+    animation: winJump 0.5s ease infinite alternate;
+    color: #10b981;
+}
+
+@keyframes winJump {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}

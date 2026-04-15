@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Token Roulette | Playful Edition</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ AI TOKEN ROULETTE ✨</h1>
+            <p class="subtitle">The friendliest way to simulate inference!</p>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <span class="label">YOUR WALLET</span>
+                <div class="value"><span id="token-balance">100</span> 🪙</div>
+            </div>
+            <div class="stat-card">
+                <span class="label">COST TO RUN</span>
+                <div class="value"><span id="spin-cost">5</span> 🪙</div>
+            </div>
+        </div>
+
+        <div class="slot-machine">
+            <div class="reel-container">
+                <span class="reel-label">Node A</span>
+                <div class="reel" id="reel-1">🧠</div>
+            </div>
+            <div class="reel-container">
+                <span class="reel-label">Node B</span>
+                <div class="reel" id="reel-2">🧠</div>
+            </div>
+            <div class="reel-container">
+                <span class="reel-label">Node C</span>
+                <div class="reel" id="reel-3">🧠</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="spin-button" class="btn-main">🚀 START INFERENCE</button>
+            <button id="stop-button" class="btn-secondary" disabled>🛑 EMERGENCY STOP</button>
+        </div>
+
+        <div class="terminal">
+            <div class="terminal-header">ACTIVITY LOG</div>
+            <div id="log-content" class="terminal-body">
+                <div>Ready to generate some fun!</div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

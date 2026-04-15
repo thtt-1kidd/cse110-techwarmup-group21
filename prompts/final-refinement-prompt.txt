@@ -1,0 +1,6 @@
+Make the website user-friendly
+1. Show total burn.
+2. Resize the elements so the new game button is centered and isn't clear.
+3. Add a light/dark theme toggle.
+4. Make feature that darkens all other features until spin is done to emphasize where we should be looking.
+
