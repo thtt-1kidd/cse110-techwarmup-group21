@@ -1,266 +1,379 @@
-// Game state
-const gameState = {
-    tokens: 1000,
-    totalSpent: 0,
-    spinsPlayed: 0,
-    spinsWon: 0,
-    isSpinning: false,
-};
-
-// Game symbols and their properties
-const symbols = [
-    'HALLUCINATION',
-    'INFERENCE',
-    'TOKENS',
-    'BIAS',
-    'HYPE',
-    'PROMPT'
-];
-
-// Win messages for different outcomes
-const winMessages = {
-    jackpot: [
-        "🎉 THREE TOKENS! The house loses! (Ironically, you're still paying us)",
-        "💰 TOKEN TRINITY! Congratulations on your lucky error in our favor!",
-        "🚀 TOKENS TOKENS TOKENS! You beat the algorithm... or did it let you?"
-    ],
-    prompt: [
-        "✨ Three PROMPTS! At least you tried.",
-        "📝 PROMPT SYNC! Sometimes consistency pays off!",
-        "🎯 Triple PROMPT! The jailbreak was worth it!"
-    ],
-    hype: [
-        "📢 HYPE HYPE HYPE! Marketing majors win again!",
-        "🚀 The narrative is strong with this one!",
-        "💫 Three HYPES! Our investor relations team thanks you!"
-    ],
-    inference: [
-        "⚙️ Three INFERENCES! Your prompt got computed!",
-        "🧠 INFERENCE STACK! We processed something!",
-        "💭 Inference Chain Activated! Probably correctly!"
-    ],
-    pair: [
-        "🤝 Two Matching! A mercy reward from our CEO.",
-        "👯 Pair Match! Not quite a breakthrough.",
-        "🔗 Double luck! The neural net says 'meh'."
-    ],
-    loss: [
-        "❌ No match. The AI remains unpredictable.",
-        "🎰 That's rough, buddy. Token tax collected.",
-        "📉 Market correction. Deflation event.",
-        "⚡ Inference timeout. Please try again later.",
-        "🤔 Your prompt was too vague. Hallucination incoming!"
-    ]
-};
-
-// DOM Elements
-const tokenDisplay = document.getElementById('tokenDisplay');
-const totalSpentDisplay = document.getElementById('totalSpentDisplay');
-const winRateDisplay = document.getElementById('winRateDisplay');
-const spinButton = document.getElementById('spinButton');
-const resetButton = document.getElementById('resetButton');
-const resultMessage = document.getElementById('resultMessage');
-const resultPayout = document.getElementById('resultPayout');
-const resultPanel = document.getElementById('resultPanel');
-const reels = [document.getElementById('reel1'), document.getElementById('reel2'), document.getElementById('reel3')];
-
-const SPIN_COST = 50;
-
-// Initialize event listeners
-spinButton.addEventListener('click', handleSpin);
-resetButton.addEventListener('click', handleReset);
-
-// Helper function to get random symbol
-function getRandomSymbol() {
-    return symbols[Math.floor(Math.random() * symbols.length)];
-}
-
-// Helper function to get random spin outcome (with some bias toward certain patterns)
-function getSpinOutcome() {
-    const outcome = [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
-    return outcome;
-}
-
-// Calculate position of symbol in the reel
-function getSymbolPosition(symbol) {
-    return symbols.indexOf(symbol);
-}
-
-// Animate a single reel
-async function spinReel(reelElement, targetSymbol) {
-    return new Promise((resolve) => {
-        const targetPosition = getSymbolPosition(targetSymbol);
-        const spinDuration = 1500 + Math.random() * 500; // Variable spin time
-        const itemHeight = 80;
-        
-        // Quick spin animation
-        reelElement.classList.add('spinning');
-        
-        // Calculate how many times to spin and final position
-        const fullRotations = 3;
-        const totalDistance = fullRotations * itemHeight * symbols.length + (targetPosition * itemHeight);
-        
-        setTimeout(() => {
-            reelElement.classList.remove('spinning');
-            reelElement.style.transform = `translateY(-${targetPosition * itemHeight}px)`;
-            reelElement.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
-            
-            setTimeout(() => {
-                reelElement.style.transition = 'transform 0.1s linear';
-                resolve();
-            }, 550);
-        }, spinDuration);
-    });
-}
-
-// Check for winning combinations
-function checkWin(outcome) {
-    const [symbol1, symbol2, symbol3] = outcome;
-    
-    // Three of a kind
-    if (symbol1 === symbol2 && symbol2 === symbol3) {
-        return {
-            type: 'three',
-            symbol: symbol1,
-            payout: getThreeOfAKindPayout(symbol1)
-        };
-    }
-    
-    // Two of a kind
-    if (symbol1 === symbol2 || symbol2 === symbol3 || symbol1 === symbol3) {
-        return {
-            type: 'pair',
-            payout: 25
-        };
-    }
-    
-    // No win
-    return {
-        type: 'loss',
-        payout: 0
+(() => {
+    "use strict";
+  
+    const CONFIG = {
+      startingTokens: 1000,
+      spinCost: 50,
+      reelItemHeight: 84,
+      spinDurationBase: 900,
+      symbols: [
+        "HALLUCINATION",
+        "INFERENCE",
+        "TOKENS",
+        "BIAS",
+        "HYPE",
+        "PROMPT"
+      ],
+      payouts: {
+        TOKENS: 500,
+        PROMPT: 200,
+        HYPE: 150,
+        INFERENCE: 100
+      },
+      twoMatchPayout: 25,
+      visibleCopiesPerReel: 4
     };
-}
-
-// Get payout for three of a kind
-function getThreeOfAKindPayout(symbol) {
-    const payouts = {
-        'TOKENS': 500,
-        'PROMPT': 200,
-        'HYPE': 150,
-        'INFERENCE': 100,
-        'HALLUCINATION': 75,
-        'BIAS': 50
+  
+    const state = {
+      tokens: CONFIG.startingTokens,
+      totalSpent: 0,
+      totalWon: 0,
+      spins: 0,
+      wins: 0,
+      isSpinning: false,
+      lastNet: null,
+      currentSymbols: ["HALLUCINATION", "INFERENCE", "TOKENS"]
     };
-    return payouts[symbol] || 50;
-}
-
-// Get message for win result
-function getResultMessage(result) {
-    if (result.type === 'three') {
-        const symbol = result.symbol;
-        const messagePool = winMessages[symbol.toLowerCase()] || winMessages['pair'];
-        return messagePool[Math.floor(Math.random() * messagePool.length)];
-    } else if (result.type === 'pair') {
-        return winMessages.pair[Math.floor(Math.random() * winMessages.pair.length)];
-    } else {
-        return winMessages.loss[Math.floor(Math.random() * winMessages.loss.length)];
+  
+    const elements = {
+      tokenDisplay: document.getElementById("tokenDisplay"),
+      totalSpentDisplay: document.getElementById("totalSpentDisplay"),
+      totalWonDisplay: document.getElementById("totalWonDisplay"),
+      winRateDisplay: document.getElementById("winRateDisplay"),
+      spinCostDisplay: document.getElementById("spinCostDisplay"),
+      lastNetDisplay: document.getElementById("lastNetDisplay"),
+      statusDisplay: document.getElementById("statusDisplay"),
+      spinButton: document.getElementById("spinButton"),
+      resetButton: document.getElementById("resetButton"),
+      resultPanel: document.getElementById("resultPanel"),
+      resultMessage: document.getElementById("resultMessage"),
+      resultPayout: document.getElementById("resultPayout"),
+      resultSymbols: document.getElementById("resultSymbols"),
+      reel1: document.getElementById("reel1"),
+      reel2: document.getElementById("reel2"),
+      reel3: document.getElementById("reel3")
+    };
+  
+    const reelElements = [elements.reel1, elements.reel2, elements.reel3];
+  
+    function formatNumber(value) {
+      return new Intl.NumberFormat("en-US").format(value);
     }
-}
-
-// Update UI displays
-function updateDisplay() {
-    tokenDisplay.textContent = gameState.tokens;
-    totalSpentDisplay.textContent = gameState.totalSpent;
-    
-    const winRate = gameState.spinsPlayed > 0 
-        ? Math.round((gameState.spinsWon / gameState.spinsPlayed) * 100)
-        : 0;
-    winRateDisplay.textContent = winRate + '%';
-    
-    spinButton.disabled = gameState.tokens < SPIN_COST;
-    if (gameState.tokens === 0) {
-        spinButton.textContent = 'BANKRUPTCY ACHIEVED';
-    } else {
-        spinButton.textContent = `SPIN (Costs ${SPIN_COST} tokens)`;
+  
+    function formatSigned(value) {
+      if (value === 0) {
+        return "0 tokens";
+      }
+  
+      const sign = value > 0 ? "+" : "-";
+      return `${sign}${formatNumber(Math.abs(value))} tokens`;
     }
-}
-
-// Main spin handler
-async function handleSpin() {
-    if (gameState.isSpinning || gameState.tokens < SPIN_COST) {
+  
+    function clampNonNegative(value) {
+      return Math.max(0, value);
+    }
+  
+    function randomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
+  
+    function getRandomSymbol() {
+      return CONFIG.symbols[randomInt(CONFIG.symbols.length)];
+    }
+  
+    function buildReelMarkup(targetSymbol) {
+      const sequence = [];
+  
+      for (let copy = 0; copy < CONFIG.visibleCopiesPerReel; copy += 1) {
+        for (const symbol of CONFIG.symbols) {
+          sequence.push(symbol);
+        }
+      }
+  
+      sequence.push(targetSymbol);
+  
+      return sequence
+        .map((symbol, index) => {
+          const isFinal = index === sequence.length - 1;
+          const activeClass = isFinal ? " active" : "";
+          return `<div class="reel-item${activeClass}" data-symbol="${symbol}">${symbol}</div>`;
+        })
+        .join("");
+    }
+  
+    function setReelToSymbol(reelElement, symbol) {
+      reelElement.style.transition = "none";
+      reelElement.innerHTML = `<div class="reel-item active" data-symbol="${symbol}">${symbol}</div>`;
+      reelElement.style.transform = "translateY(0)";
+      reelElement.offsetHeight; // force reflow
+      reelElement.style.transition = "";
+    }
+  
+    function initializeReels() {
+      state.currentSymbols.forEach((symbol, index) => {
+        setReelToSymbol(reelElements[index], symbol);
+      });
+    }
+  
+    function updateStats() {
+      elements.tokenDisplay.textContent = formatNumber(state.tokens);
+      elements.totalSpentDisplay.textContent = formatNumber(state.totalSpent);
+      elements.totalWonDisplay.textContent = formatNumber(state.totalWon);
+  
+      const winRate = state.spins === 0
+        ? 0
+        : Math.round((state.wins / state.spins) * 100);
+  
+      elements.winRateDisplay.textContent = `${winRate}%`;
+      elements.spinCostDisplay.textContent = `${CONFIG.spinCost} tokens`;
+  
+      if (state.lastNet === null) {
+        elements.lastNetDisplay.textContent = "—";
+        elements.lastNetDisplay.className = "bet-value neutral";
+      } else {
+        elements.lastNetDisplay.textContent = formatSigned(state.lastNet);
+        elements.lastNetDisplay.className = `bet-value ${state.lastNet > 0 ? "positive" : state.lastNet < 0 ? "negative" : "neutral"}`;
+      }
+  
+      const canAffordSpin = state.tokens >= CONFIG.spinCost && !state.isSpinning;
+      elements.spinButton.disabled = !canAffordSpin;
+      elements.spinButton.textContent = canAffordSpin
+        ? `Spin for ${CONFIG.spinCost} tokens`
+        : state.isSpinning
+          ? "Spinning..."
+          : "Not enough tokens to spin";
+    }
+  
+    function setStatus(message) {
+      elements.statusDisplay.textContent = message;
+    }
+  
+    function updateResultPanel(type, message, payoutText, symbolsText) {
+      elements.resultPanel.classList.remove("neutral", "win", "loss", "flash-win", "flash-loss");
+      elements.resultPanel.classList.add(type);
+  
+      elements.resultMessage.textContent = message;
+      elements.resultPayout.textContent = payoutText;
+      elements.resultSymbols.textContent = symbolsText;
+  
+      // restart flash animation
+      void elements.resultPanel.offsetWidth;
+  
+      if (type === "win") {
+        elements.resultPanel.classList.add("flash-win");
+      } else if (type === "loss") {
+        elements.resultPanel.classList.add("flash-loss");
+      }
+    }
+  
+    function getPayout(symbols) {
+      const [a, b, c] = symbols;
+      const isTriple = a === b && b === c;
+  
+      if (isTriple) {
+        return {
+          amount: CONFIG.payouts[a] || 0,
+          kind: "triple",
+          symbol: a
+        };
+      }
+  
+      const counts = symbols.reduce((map, symbol) => {
+        map[symbol] = (map[symbol] || 0) + 1;
+        return map;
+      }, {});
+  
+      const hasPair = Object.values(counts).some((count) => count >= 2);
+  
+      if (hasPair) {
+        return {
+          amount: CONFIG.twoMatchPayout,
+          kind: "pair",
+          symbol: Object.keys(counts).find((symbol) => counts[symbol] >= 2) || null
+        };
+      }
+  
+      return {
+        amount: 0,
+        kind: "none",
+        symbol: null
+      };
+    }
+  
+    function getResultMessage(symbols, payout, net) {
+      const label = symbols.join(" • ");
+  
+      if (payout.kind === "triple" && payout.amount > 0) {
+        return {
+          type: "win",
+          message: `Jackpot-ish: ${label}. The house blinked first.`,
+          payoutText: `Payout: +${formatNumber(payout.amount)} tokens · Net: ${formatSigned(net)}`,
+          symbolsText: label
+        };
+      }
+  
+      if (payout.kind === "triple" && payout.amount === 0) {
+        return {
+          type: net >= 0 ? "neutral" : "loss",
+          message: `Three ${payout.symbol}s. Inspirational, but not profitable.`,
+          payoutText: `Payout: +0 tokens · Net: ${formatSigned(net)}`,
+          symbolsText: label
+        };
+      }
+  
+      if (payout.kind === "pair") {
+        return {
+          type: "win",
+          message: `Two ${payout.symbol}s. The machine offers a tiny mercy.`,
+          payoutText: `Payout: +${formatNumber(payout.amount)} tokens · Net: ${formatSigned(net)}`,
+          symbolsText: label
+        };
+      }
+  
+      return {
+        type: "loss",
+        message: "No match. Your budget has been successfully optimized away.",
+        payoutText: `Payout: +0 tokens · Net: ${formatSigned(net)}`,
+        symbolsText: label
+      };
+    }
+  
+    function animateReel(reelElement, targetSymbol, reelIndex) {
+      return new Promise((resolve) => {
+        reelElement.innerHTML = buildReelMarkup(targetSymbol);
+        reelElement.style.transition = "none";
+        reelElement.style.transform = "translateY(0)";
+        reelElement.offsetHeight; // force reflow
+  
+        const finalIndex = (CONFIG.visibleCopiesPerReel * CONFIG.symbols.length);
+        const finalOffset = -(finalIndex * CONFIG.reelItemHeight);
+        const duration = CONFIG.spinDurationBase + reelIndex * 250;
+  
+        reelElement.style.transition = `transform ${duration}ms cubic-bezier(0.16, 0.84, 0.24, 1)`;
+        reelElement.style.transform = `translateY(${finalOffset}px)`;
+  
+        window.setTimeout(() => {
+          setReelToSymbol(reelElement, targetSymbol);
+          resolve();
+        }, duration + 30);
+      });
+    }
+  
+    async function spin() {
+      if (state.isSpinning || state.tokens < CONFIG.spinCost) {
         return;
+      }
+  
+      state.isSpinning = true;
+      state.spins += 1;
+      state.tokens = clampNonNegative(state.tokens - CONFIG.spinCost);
+      state.totalSpent += CONFIG.spinCost;
+      state.lastNet = -CONFIG.spinCost;
+  
+      updateStats();
+      setStatus("Spinning...");
+      updateResultPanel(
+        "neutral",
+        "Reels spinning. Please blame latency.",
+        `Spin cost: -${formatNumber(CONFIG.spinCost)} tokens`,
+        "…"
+      );
+  
+      const resultSymbols = [
+        getRandomSymbol(),
+        getRandomSymbol(),
+        getRandomSymbol()
+      ];
+  
+      await Promise.all(
+        reelElements.map((reelElement, index) =>
+          animateReel(reelElement, resultSymbols[index], index))
+      );
+  
+      state.currentSymbols = resultSymbols;
+  
+      const payout = getPayout(resultSymbols);
+      const net = payout.amount - CONFIG.spinCost;
+  
+      if (payout.amount > 0) {
+        state.tokens += payout.amount;
+        state.totalWon += payout.amount;
+        state.wins += 1;
+      }
+  
+      state.lastNet = net;
+  
+      const result = getResultMessage(resultSymbols, payout, net);
+  
+      if (state.tokens <= 0) {
+        setStatus("Game over");
+        updateResultPanel(
+          state.wins > 0 ? "loss" : result.type,
+          "You are out of tokens. The disruption is complete.",
+          `${result.payoutText} · Balance: 0`,
+          result.symbolsText
+        );
+      } else {
+        setStatus(result.type === "win" ? "You won this spin" : "Ready to spin again");
+        updateResultPanel(result.type, result.message, result.payoutText, result.symbolsText);
+      }
+  
+      state.isSpinning = false;
+      updateStats();
     }
-    
-    gameState.isSpinning = true;
-    spinButton.disabled = true;
-    resultMessage.textContent = '';
-    resultPayout.textContent = '';
-    
-    // Deduct spin cost
-    gameState.tokens -= SPIN_COST;
-    gameState.totalSpent += SPIN_COST;
-    gameState.spinsPlayed += 1;
-    updateDisplay();
-    
-    // Get spin outcome
-    const outcome = getSpinOutcome();
-    
-    // Animate reels
-    const spinPromises = reels.map((reel, index) => spinReel(reel, outcome[index]));
-    await Promise.all(spinPromises);
-    
-    // Check for win
-    const result = checkWin(outcome);
-    
-    // Display result
-    const message = getResultMessage(result);
-    resultMessage.textContent = message;
-    resultMessage.classList.toggle('lost', result.type === 'loss');
-    
-    if (result.payout > 0) {
-        gameState.tokens += result.payout;
-        gameState.spinsWon += 1;
-        resultPayout.textContent = `+${result.payout} tokens!`;
-        resultPayout.classList.add('jackpot');
-        resultPayout.classList.remove('lost');
-    } else {
-        resultPayout.textContent = 'No tokens won.';
-        resultPayout.classList.remove('jackpot');
-        resultPayout.classList.add('lost');
+  
+    function resetGame() {
+      state.tokens = CONFIG.startingTokens;
+      state.totalSpent = 0;
+      state.totalWon = 0;
+      state.spins = 0;
+      state.wins = 0;
+      state.isSpinning = false;
+      state.lastNet = null;
+      state.currentSymbols = ["HALLUCINATION", "INFERENCE", "TOKENS"];
+  
+      initializeReels();
+      updateStats();
+      setStatus("Ready to spin");
+      updateResultPanel(
+        "neutral",
+        "Game reset. Fresh budget, same reckless energy.",
+        "No spin yet",
+        "—"
+      );
     }
-    
-    updateDisplay();
-    
-    // Re-enable spin button
-    setTimeout(() => {
-        gameState.isSpinning = false;
-        spinButton.disabled = gameState.tokens < SPIN_COST;
-        resultPayout.classList.remove('jackpot');
-    }, 500);
-}
-
-// Reset game
-function handleReset() {
-    gameState.tokens = 1000;
-    gameState.totalSpent = 0;
-    gameState.spinsPlayed = 0;
-    gameState.spinsWon = 0;
-    gameState.isSpinning = false;
-    
-    resultMessage.textContent = '';
-    resultPayout.textContent = '';
-    resultMessage.classList.remove('lost');
-    resultPayout.classList.remove('lost');
-    
-    // Reset reel positions
-    reels.forEach(reel => {
-        reel.style.transform = 'translateY(0)';
-        reel.style.transition = 'transform 0.1s linear';
-    });
-    
-    updateDisplay();
-    spinButton.disabled = false;
-}
-
-// Initialize the game
-updateDisplay();
+  
+    function attachEvents() {
+      elements.spinButton.addEventListener("click", spin);
+      elements.resetButton.addEventListener("click", resetGame);
+  
+      document.addEventListener("keydown", (event) => {
+        if (event.code === "Space") {
+          event.preventDefault();
+  
+          if (!elements.spinButton.disabled) {
+            spin();
+          }
+        }
+  
+        if (event.key.toLowerCase() === "r") {
+          resetGame();
+        }
+      });
+    }
+  
+    function init() {
+      initializeReels();
+      attachEvents();
+      updateStats();
+      setStatus("Ready to spin");
+      updateResultPanel(
+        "neutral",
+        "Pull the lever and hope the model respects your budget.",
+        "No spin yet",
+        "—"
+      );
+    }
+  
+    init();
+  })();

@@ -1,94 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Token Slots - Where Your Money Disappears Into Inference</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>AI Token Slots - Where Your Money Disappears Into Inference</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1 class="title">🤖 AI Token Slots</h1>
-            <p class="subtitle">Gamify Your AI Spending™</p>
-        </header>
+  <main class="app-shell">
+    <section class="container" aria-label="AI Token Slots game">
+      <header class="header">
+        <p class="eyebrow">Satirical browser game</p>
+        <h1 class="title">🤖 AI Token Slots</h1>
+        <p class="subtitle">Gamify Your AI Spending™</p>
+      </header>
 
-        <div class="stats-panel">
-            <div class="stat-item">
-                <span class="stat-label">Current Tokens:</span>
-                <span class="stat-value" id="tokenDisplay">1000</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Total Spent:</span>
-                <span class="stat-value" id="totalSpentDisplay">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Win Rate (Vibes):</span>
-                <span class="stat-value" id="winRateDisplay">0%</span>
-            </div>
+      <section class="stats-panel" aria-label="Game stats">
+        <article class="stat-card">
+          <span class="stat-label">Current Tokens</span>
+          <strong class="stat-value" id="tokenDisplay">1,000</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Total Spent</span>
+          <strong class="stat-value" id="totalSpentDisplay">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Total Won</span>
+          <strong class="stat-value" id="totalWonDisplay">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Win Rate</span>
+          <strong class="stat-value" id="winRateDisplay">0%</strong>
+        </article>
+      </section>
+
+      <section class="bet-panel" aria-label="Bet information">
+        <div class="bet-row">
+          <span class="bet-label">Spin Cost</span>
+          <span class="bet-value" id="spinCostDisplay">50 tokens</span>
+        </div>
+        <div class="bet-row">
+          <span class="bet-label">Last Net Result</span>
+          <span class="bet-value neutral" id="lastNetDisplay">—</span>
+        </div>
+        <div class="bet-row">
+          <span class="bet-label">Game Status</span>
+          <span class="bet-value" id="statusDisplay">Ready to spin</span>
+        </div>
+      </section>
+
+      <section class="machine" aria-label="Slot machine">
+        <div class="machine-top">
+          <div class="machine-title">Inference Engine 3000</div>
+          <div class="machine-lights" aria-hidden="true">
+            <span class="light"></span>
+            <span class="light"></span>
+            <span class="light"></span>
+            <span class="light"></span>
+            <span class="light"></span>
+          </div>
         </div>
 
-        <div class="machine">
-            <div class="reel-container">
-                <div class="reel" id="reel1">
-                    <div class="reel-item">HALLUCINATION</div>
-                    <div class="reel-item">INFERENCE</div>
-                    <div class="reel-item">TOKENS</div>
-                    <div class="reel-item">BIAS</div>
-                    <div class="reel-item">HYPE</div>
-                    <div class="reel-item">PROMPT</div>
-                </div>
-            </div>
+        <div class="reels-frame">
+          <div class="payline" aria-hidden="true"></div>
 
-            <div class="reel-container">
-                <div class="reel" id="reel2">
-                    <div class="reel-item">HALLUCINATION</div>
-                    <div class="reel-item">INFERENCE</div>
-                    <div class="reel-item">TOKENS</div>
-                    <div class="reel-item">BIAS</div>
-                    <div class="reel-item">HYPE</div>
-                    <div class="reel-item">PROMPT</div>
-                </div>
-            </div>
+          <div class="reel-window">
+            <div class="reel-strip" id="reel1" aria-live="off"></div>
+          </div>
 
-            <div class="reel-container">
-                <div class="reel" id="reel3">
-                    <div class="reel-item">HALLUCINATION</div>
-                    <div class="reel-item">INFERENCE</div>
-                    <div class="reel-item">TOKENS</div>
-                    <div class="reel-item">BIAS</div>
-                    <div class="reel-item">HYPE</div>
-                    <div class="reel-item">PROMPT</div>
-                </div>
-            </div>
+          <div class="reel-window">
+            <div class="reel-strip" id="reel2" aria-live="off"></div>
+          </div>
+
+          <div class="reel-window">
+            <div class="reel-strip" id="reel3" aria-live="off"></div>
+          </div>
         </div>
+      </section>
 
-        <div class="controls">
-            <button id="spinButton" class="spin-button">SPIN (Costs 50 tokens)</button>
-            <button id="resetButton" class="reset-button">Reset Game</button>
+      <section class="controls" aria-label="Game controls">
+        <button id="spinButton" class="button button-primary" type="button">
+          Spin for 50 tokens
+        </button>
+        <button id="resetButton" class="button button-secondary" type="button">
+          Reset Game
+        </button>
+      </section>
+
+      <section class="result-panel neutral" id="resultPanel" aria-live="polite">
+        <p class="result-kicker">Latest Result</p>
+        <div class="result-message" id="resultMessage">
+          Pull the lever and hope the model respects your budget.
         </div>
-
-        <div class="result-panel" id="resultPanel">
-            <div class="result-message" id="resultMessage"></div>
-            <div class="result-payout" id="resultPayout"></div>
+        <div class="result-details">
+          <span class="result-payout" id="resultPayout">No spin yet</span>
+          <span class="result-symbols" id="resultSymbols">—</span>
         </div>
+      </section>
 
-        <div class="info-panel">
-            <h3>How This Predatory Game Works</h3>
+      <section class="info-panel" aria-label="Payout rules">
+        <h2>How This Predatory Game Works</h2>
+
+        <div class="rules-grid">
+          <div class="rule-card">
+            <h3>Spin Cost</h3>
+            <p>Every spin costs <strong>50 tokens</strong> up front.</p>
+          </div>
+
+          <div class="rule-card">
+            <h3>Triple Matches</h3>
             <ul>
-                <li><strong>Spin Cost:</strong> 50 tokens per spin</li>
-                <li><strong>Three TOKENS:</strong> +500 tokens (the house special!)</li>
-                <li><strong>Three PROMPTS:</strong> +200 tokens (honest work)</li>
-                <li><strong>Three HYPES:</strong> +150 tokens (marketing works!)</li>
-                <li><strong>Three INFERENCES:</strong> +100 tokens (efficient loss)</li>
-                <li><strong>Two Matching Symbols:</strong> +25 tokens (pity reward)</li>
-                <li><strong>Empty Spin:</strong> Better luck next quarter!</li>
-                <li><strong>Zero Tokens:</strong> The game is over. You've been disrupted.</li>
+              <li><strong>TOKENS TOKENS TOKENS</strong> → +500</li>
+              <li><strong>PROMPT PROMPT PROMPT</strong> → +200</li>
+              <li><strong>HYPE HYPE HYPE</strong> → +150</li>
+              <li><strong>INFERENCE INFERENCE INFERENCE</strong> → +100</li>
             </ul>
-            <p class="disclaimer">⚠️ This game is purely satirical. Any resemblance to actual token billing practices is <em>entirely intentional</em>.</p>
-        </div>
-    </div>
+          </div>
 
-    <script src="script.js"></script>
+          <div class="rule-card">
+            <h3>Consolation Prize</h3>
+            <p>Any <strong>two matching symbols</strong> pays <strong>+25 tokens</strong>.</p>
+          </div>
+
+          <div class="rule-card">
+            <h3>Lose Condition</h3>
+            <p>Hit <strong>0 tokens</strong> and the disruption is complete.</p>
+          </div>
+        </div>
+
+        <p class="disclaimer">
+          ⚠️ This game is purely satirical. Any resemblance to actual token billing
+          practices is <em>entirely intentional</em>.
+        </p>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
