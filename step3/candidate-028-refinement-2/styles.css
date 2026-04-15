@@ -1,0 +1,122 @@
+:root {
+    --primary-gradient: linear-gradient(135deg, #6e8efb, #a777e3);
+    --button-gold: #ffcc00;
+    --stop-red: #ff4757;
+    --bg-light: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-dark: #2d3436;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.app-container {
+    width: 90%;
+    max-width: 420px;
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.8rem;
+}
+
+.stats-panel {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 15px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #6e8efb;
+}
+
+.reels-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 2rem;
+}
+
+.reel {
+    width: 90px;
+    height: 90px;
+    background: #fff;
+    border: 3px solid #eee;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.reel.spinning {
+    animation: bounce 0.15s infinite alternate;
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+button {
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+button:active { transform: scale(0.98); }
+
+.main-btn {
+    background: var(--button-gold);
+    color: #443300;
+}
+
+.stop-btn {
+    background: var(--stop-red);
+    color: white;
+}
+
+.secondary-btn {
+    background: #eee;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.info-box {
+    margin-top: 1.5rem;
+    min-height: 60px;
+}
+
+.message-text { font-weight: 500; color: #636e72; }
+.win-text { font-size: 1.2rem; font-weight: bold; color: #2ecc71; margin-top: 5px; }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Token Roulette - Fun Edition</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>AI Token Roulette</h1>
+            <p class="tagline">The friendliest way to simulate compute burn!</p>
+        </header>
+
+        <main class="slot-machine">
+            <div class="stats-bar">
+                <div class="stat-pill">
+                    <span class="label">Available Tokens</span>
+                    <span id="token-count" class="value">100</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="label">Total Burn</span>
+                    <span id="burn-count" class="value">0</span>
+                </div>
+            </div>
+
+            <section class="game-area" aria-label="Slot Machine Reels">
+                <div class="reels-container">
+                    <div class="reel" id="reel-1">🤖</div>
+                    <div class="reel" id="reel-2">📈</div>
+                    <div class="reel" id="reel-3">💸</div>
+                </div>
+            </section>
+
+            <div class="controls">
+                <button id="spin-btn" class="primary-btn">✨ Spin (10 Tokens)</button>
+                <button id="stop-btn" class="stop-btn" disabled>🛑 Emergency Stop</button>
+                <button id="reset-btn" class="secondary-btn">New Game / Reset</button>
+            </div>
+
+            <div class="terminal">
+                <div class="terminal-header">Status Monitor</div>
+                <div id="status-msg" class="msg-system">Ready to play! Click spin to start.</div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Overhype AI Corp. Have fun responsibly!</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
