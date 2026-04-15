@@ -1,0 +1,4 @@
+Make the website user-friendly
+1. Make the UI more friendly (colorful, inviting, etc.).
+2. Add better animations for expanding/contracting widgets
+3. Resize the elements as some are bad sizing and makes interface bad.
