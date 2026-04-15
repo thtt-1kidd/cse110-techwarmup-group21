@@ -8,7 +8,6 @@ After that, we came together as a team and reviewed those 11 websites again usin
 
 The shortlisted websites are listed below:
 
-- candidate-009
 - candidate-023
 - candidate-028
 - candidate-029
